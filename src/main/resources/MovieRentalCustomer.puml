@@ -1,11 +1,12 @@
 @startuml
 
 Movie "1" *-- "*" Rental
-Rental "*" *-- "1" Customer
+Customer "1" -* "*" Rental
 
 class Movie {
     int priceCode
     double getCharge(int)
+    int getFrequentRenterPoints(int)
 }
 
 class Rental {
