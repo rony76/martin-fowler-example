@@ -6,6 +6,7 @@ Price *- Movie
 
 interface Price {
     int getPriceCode()
+    double getCharge(int)
 }
 
 class Movie {
