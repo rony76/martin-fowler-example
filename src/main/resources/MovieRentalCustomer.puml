@@ -10,6 +10,7 @@ class Movie {
 class Rental {
     int daysRented
     double getCharge()
+    int getFrequentRenterPoints()
 }
 
 class Customer {
