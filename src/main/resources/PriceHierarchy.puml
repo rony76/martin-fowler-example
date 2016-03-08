@@ -1,27 +1,27 @@
 @startuml
 
-interface Movie {
+interface Price {
     double getCharge(int)
     int frequentRenterPoints(int)
 }
 
-class RegularMovie {
+class RegularPrice {
     double getCharge(int)
     int frequentRenterPoints(int)
 }
 
-class ChildrensMovie {
+class ChildrensPrice {
     double getCharge(int)
     int frequentRenterPoints(int)
 }
 
-class NewReleaseMovie {
+class NewReleasePrice {
     double getCharge(int)
     int frequentRenterPoints(int)
 }
 
-Movie <|-- RegularMovie
-Movie <|-- ChildrensMovie
-Movie <|-- NewReleaseMovie
+Price <|-- RegularPrice
+Price <|-- ChildrensPrice
+Price <|-- NewReleasePrice
 
 @enduml
