@@ -5,6 +5,7 @@ Rental "*" *-- "1" Customer
 
 class Movie {
     int priceCode
+    double getCharge(int)
 }
 
 class Rental {
