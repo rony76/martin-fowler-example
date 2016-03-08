@@ -13,4 +13,9 @@ public class ChildrensPrice implements Price {
         }
         return 1.5;
     }
+
+    @Override
+    public int getFrequentRenterPoints(int daysRented) {
+        return 1;
+    }
 }
