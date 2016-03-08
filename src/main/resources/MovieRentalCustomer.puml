@@ -15,6 +15,7 @@ class Rental {
 
 class Customer {
     String statement()
+    double getTotalCharge()
 }
 
 @enduml
