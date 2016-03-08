@@ -12,6 +12,7 @@ class Rental {
 }
 
 class Customer {
+    private double amountFor(Rental)
     String statement()
 }
 
