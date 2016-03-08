@@ -1,0 +1,27 @@
+@startuml
+
+interface Movie {
+    double getCharge(int)
+    int frequentRenterPoints(int)
+}
+
+class RegularMovie {
+    double getCharge(int)
+    int frequentRenterPoints(int)
+}
+
+class ChildrensMovie {
+    double getCharge(int)
+    int frequentRenterPoints(int)
+}
+
+class NewReleaseMovie {
+    double getCharge(int)
+    int frequentRenterPoints(int)
+}
+
+Movie <|-- RegularMovie
+Movie <|-- ChildrensMovie
+Movie <|-- NewReleaseMovie
+
+@enduml
