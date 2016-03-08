@@ -1,21 +1,25 @@
 @startuml
 
 interface Price {
+    int getPriceCode()
     double getCharge(int)
     int frequentRenterPoints(int)
 }
 
 class RegularPrice {
+    int getPriceCode()
     double getCharge(int)
     int frequentRenterPoints(int)
 }
 
 class ChildrensPrice {
+    int getPriceCode()
     double getCharge(int)
     int frequentRenterPoints(int)
 }
 
 class NewReleasePrice {
+    int getPriceCode()
     double getCharge(int)
     int frequentRenterPoints(int)
 }

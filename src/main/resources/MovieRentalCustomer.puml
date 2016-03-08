@@ -2,9 +2,14 @@
 
 Movie "1" *-- "*" Rental
 Customer "1" -* "*" Rental
+Price *- Movie
+
+interface Price {
+    int getPriceCode()
+}
 
 class Movie {
-    int priceCode
+    Price price
     double getCharge(int)
     int getFrequentRenterPoints(int)
 }
