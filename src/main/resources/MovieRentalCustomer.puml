@@ -9,10 +9,10 @@ class Movie {
 
 class Rental {
     int daysRented
+    double getCharge()
 }
 
 class Customer {
-    private double amountFor(Rental)
     String statement()
 }
 
