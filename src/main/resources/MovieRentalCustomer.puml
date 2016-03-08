@@ -16,6 +16,7 @@ class Rental {
 class Customer {
     String statement()
     double getTotalCharge()
+    int getTotalFrequentRenterPoints()
 }
 
 @enduml
