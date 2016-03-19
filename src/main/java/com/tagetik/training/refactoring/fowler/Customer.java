@@ -45,6 +45,15 @@ public class Customer {
                     if (rental.getDaysRented() > 3) {
                         thisAmount += (rental.getDaysRented() - 3) * 1.5;
                     }
+                    break;
+
+                case Movie.THREE_D:
+                    thisAmount += 3.5;
+                    if (rental.getDaysRented() >= 3) {
+                        thisAmount += rental.getDaysRented() / 3 * 4.0;
+                    }
+                    break;
+
             }
 
             // add frequent renter points
@@ -53,6 +62,14 @@ public class Customer {
             // add bonus for a two day new release rental
             if ((rental.getMovie().getPriceCode() == Movie.NEW_RELEASE) && rental.getDaysRented() > 1) {
                 frequentRenterPoints++;
+            }
+
+            // calculate 2 points + 3 points every 3 days for 3D movies
+            else if (rental.getMovie().getPriceCode() == Movie.THREE_D) {
+                frequentRenterPoints++;
+                if (rental.getDaysRented() > 3) {
+                    frequentRenterPoints += rental.getDaysRented() / 3;
+                }
             }
 
             // show figures for this rental
@@ -93,6 +110,14 @@ public class Customer {
                     if (rental.getDaysRented() > 3) {
                         thisAmount += (rental.getDaysRented() - 3) * 1.5;
                     }
+                    break;
+
+                case Movie.THREE_D:
+                    thisAmount += 3.5;
+                    if (rental.getDaysRented() >= 3) {
+                        thisAmount += rental.getDaysRented() / 3 * 4.0;
+                    }
+                    break;
             }
 
             // add frequent renter points
@@ -101,6 +126,14 @@ public class Customer {
             // add bonus for a two day new release rental
             if ((rental.getMovie().getPriceCode() == Movie.NEW_RELEASE) && rental.getDaysRented() > 1) {
                 frequentRenterPoints++;
+            }
+
+            // calculate 2 points + 3 points every 3 days for 3D movies
+            else if (rental.getMovie().getPriceCode() == Movie.THREE_D) {
+                frequentRenterPoints++;
+                if (rental.getDaysRented() > 3) {
+                    frequentRenterPoints += rental.getDaysRented() / 3;
+                }
             }
 
             // show figures for this rental
