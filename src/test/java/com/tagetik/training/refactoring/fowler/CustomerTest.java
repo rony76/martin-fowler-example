@@ -14,13 +14,13 @@ import static com.tagetik.training.refactoring.fowler.TotalAmountMatcher.require
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 public class CustomerTest {
 
     private static final Movie NEW_RELEASED_MOVIE = new Movie("A brand new film", Movie.NEW_RELEASE);
     private static final Movie CHILDREN_MOVIE = new Movie("Shaun the sheep", Movie.CHILDRENS);
     private static final Movie REGULAR_MOVIE = new Movie("Young Frankenstein", Movie.REGULAR);
+    private static final Movie THREE_D_MOVIE = new Movie("Alice in Wonderland", Movie.THREE_D);
 
     @Test
     public void noRentalImpliesNoCharge() throws Exception {
@@ -187,6 +187,51 @@ public class CustomerTest {
         String twoDaysStatement = customer.statement();
 
         assertThat(twoDaysStatement, grantsPoints(1 + 1));
+    }
+
+    @Test
+    public void threeDMoviesCostThreeFiftyOnTheFirstDay() throws Exception {
+        Customer customer = createCustomer();
+        customer.addRental(new Rental(THREE_D_MOVIE, 1));
+
+        assertThat(customer.statement(), requiresAmount(3.5));
+        assertThat(customer.markdownStatement(), requiresAmountInMarkdown(3.5));
+    }
+
+    @Test
+    public void threeDMoviesCostThreeFiftyOnTheFirstTwoDays() throws Exception {
+        Customer customer = createCustomer();
+        customer.addRental(new Rental(THREE_D_MOVIE, 2));
+
+        assertThat(customer.statement(), requiresAmount(3.5));
+        assertThat(customer.markdownStatement(), requiresAmountInMarkdown(3.5));
+    }
+
+    @Test
+    public void threeDMoviesCostFourDollarsEveryThirdDay() throws Exception {
+        Customer customer = createCustomer();
+        customer.addRental(new Rental(THREE_D_MOVIE, 10));
+
+        assertThat(customer.statement(), requiresAmount(3.5 + 4.0 * 3));
+        assertThat(customer.markdownStatement(), requiresAmountInMarkdown(3.5 + 4.0 * 3));
+    }
+
+    @Test
+    public void threeDMoviesGrantTwoFRPOnTheFirstDay() throws Exception {
+        Customer customer = createCustomer();
+        customer.addRental(new Rental(THREE_D_MOVIE, 1));
+
+        assertThat(customer.statement(), grantsPoints(2));
+        assertThat(customer.markdownStatement(), grantsPointsInMarkdown(2));
+    }
+
+    @Test
+    public void threeDMoviesGrantOneMoreFRPOnEveryThirdDay() throws Exception {
+        Customer customer = createCustomer();
+        customer.addRental(new Rental(THREE_D_MOVIE, 6));
+
+        assertThat(customer.statement(), grantsPoints(2 + 2));
+        assertThat(customer.markdownStatement(), grantsPointsInMarkdown(2 + 2));
     }
 
     private Customer createCustomer() {
