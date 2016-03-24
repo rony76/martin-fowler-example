@@ -35,7 +35,11 @@ public class Customer {
     }
 
     private int getFrequentRenterPoints() {
-        return rentals.stream().mapToInt(Rental::getFrequentRenterPoints).sum();
+        int result = 0;
+        for (Rental rental : rentals) {
+            result += rental.getFrequentRenterPoints();
+        }
+        return result;
     }
 
     private double getTotalCharge() {
