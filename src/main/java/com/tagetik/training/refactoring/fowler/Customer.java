@@ -20,7 +20,6 @@ public class Customer {
     }
 
     public String statement() {
-
         String result = "Rental Record for " + getName() + "\n";
         for (Rental rental : rentals) {
             // show figures for this rental
@@ -50,4 +49,17 @@ public class Customer {
         return result;
     }
 
+    public String markdownStatement() {
+        String result = "Rental Record for **" + getName() + "**\n";
+        for (Rental rental : rentals) {
+            // show figures for this rental
+            result += "\t*" + rental.getMovie().getTitle() + "*\t" + rental.getCharge() + "\n";
+        }
+
+        // add footer lines
+        result += "Amount owed is **" + getTotalCharge() + "**\n";
+        result += "You earned **" + getFrequentRenterPoints() + "** frequent renter points";
+
+        return result;
+    }
 }
