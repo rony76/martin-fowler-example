@@ -56,7 +56,7 @@ public class Customer {
             }
 
             // show figures for this rental
-            result += "\t" + rental.getDaysRented() + "\t" + thisAmount + "\n";
+            result += "\t" + rental.getMovie().getTitle() + "\t" + thisAmount + "\n";
             totalAmount += thisAmount;
         }
 
