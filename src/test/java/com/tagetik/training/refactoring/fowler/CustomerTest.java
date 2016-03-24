@@ -118,6 +118,28 @@ public class CustomerTest {
         assertThat(twoDaysStatement, requiresAmount(2.0));
     }
 
+    @Test
+    public void amountsForDifferentMoviesAreAccumulated() throws Exception {
+        Customer customer = createCustomer();
+        customer.addRental(new Rental(REGULAR_MOVIE, 1));
+        customer.addRental(new Rental(CHILDREN_MOVIE, 2));
+
+        String twoDaysStatement = customer.statement();
+
+        assertThat(twoDaysStatement, requiresAmount(2.0 + 1.5));
+    }
+
+    @Test
+    public void frequentRenterPointsForDifferentMoviesAreAccumulated() throws Exception {
+        Customer customer = createCustomer();
+        customer.addRental(new Rental(REGULAR_MOVIE, 1));
+        customer.addRental(new Rental(CHILDREN_MOVIE, 2));
+
+        String twoDaysStatement = customer.statement();
+
+        assertThat(twoDaysStatement, grantsPoints(1 + 1));
+    }
+
     private Customer createCustomer() {
         return new Customer("Fufaffio Fufaffi");
     }
