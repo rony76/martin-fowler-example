@@ -38,7 +38,11 @@ public class Customer {
     }
 
     private double getTotalCharge() {
-        return rentals.stream().mapToDouble(Rental::getCharge).sum();
+        double result = 0;
+        for (Rental rental : rentals) {
+            result += rental.getCharge();
+        }
+        return result;
     }
 
 }
