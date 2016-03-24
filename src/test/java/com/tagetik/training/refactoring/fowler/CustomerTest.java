@@ -1,10 +1,20 @@
 package com.tagetik.training.refactoring.fowler;
 
+import org.hamcrest.Matcher;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import static com.tagetik.training.refactoring.fowler.MarkdownPointsMatcher.grantsPointsInMarkdown;
+import static com.tagetik.training.refactoring.fowler.MarkdownTotalAmountMatcher.requiresAmountInMarkdown;
 import static com.tagetik.training.refactoring.fowler.PointsMatcher.grantsPoints;
 import static com.tagetik.training.refactoring.fowler.TotalAmountMatcher.requiresAmount;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class CustomerTest {
 
@@ -15,17 +25,17 @@ public class CustomerTest {
     @Test
     public void noRentalImpliesNoCharge() throws Exception {
         Customer customer = createCustomer();
-        String emptyStatement = customer.statement();
 
-        assertThat(emptyStatement, requiresAmount(0));
+        assertThat(customer.statement(), requiresAmount(0));
+        assertThat(customer.markdownStatement(), requiresAmountInMarkdown(0));
     }
 
     @Test
     public void noRentalGrantsNoPoints() throws Exception {
         Customer customer = createCustomer();
-        String emptyStatement = customer.statement();
 
-        assertThat(emptyStatement, grantsPoints(0));
+        assertThat(customer.statement(), grantsPoints(0));
+        assertThat(customer.markdownStatement(), grantsPointsInMarkdown(0));
     }
 
     @Test
@@ -33,9 +43,8 @@ public class CustomerTest {
         Customer customer = createCustomer();
         customer.addRental(new Rental(NEW_RELEASED_MOVIE, 1));
 
-        String twoDaysStatement = customer.statement();
-
-        assertThat(twoDaysStatement, requiresAmount(3.0));
+        assertThat(customer.statement(), requiresAmount(3.0));
+        assertThat(customer.markdownStatement(), requiresAmountInMarkdown(3.0));
     }
 
     @Test
@@ -43,9 +52,8 @@ public class CustomerTest {
         Customer customer = createCustomer();
         customer.addRental(new Rental(NEW_RELEASED_MOVIE, 2));
 
-        String twoDaysStatement = customer.statement();
-
-        assertThat(twoDaysStatement, requiresAmount(6.0));
+        assertThat(customer.statement(), requiresAmount(6.0));
+        assertThat(customer.markdownStatement(), requiresAmountInMarkdown(6.0));
     }
 
     @Test
@@ -53,9 +61,8 @@ public class CustomerTest {
         Customer customer = createCustomer();
         customer.addRental(new Rental(NEW_RELEASED_MOVIE, 2));
 
-        String twoDaysStatement = customer.statement();
-
-        assertThat(twoDaysStatement, grantsPoints(2));
+        assertThat(customer.statement(), grantsPoints(2));
+        assertThat(customer.markdownStatement(), grantsPointsInMarkdown(2));
     }
 
     @Test
@@ -63,9 +70,8 @@ public class CustomerTest {
         Customer customer = createCustomer();
         customer.addRental(new Rental(CHILDREN_MOVIE, 1));
 
-        String twoDaysStatement = customer.statement();
-
-        assertThat(twoDaysStatement, requiresAmount(1.5));
+        assertThat(customer.statement(), requiresAmount(1.5));
+        assertThat(customer.markdownStatement(), requiresAmountInMarkdown(1.5));
     }
 
     @Test
@@ -73,9 +79,8 @@ public class CustomerTest {
         Customer customer = createCustomer();
         customer.addRental(new Rental(CHILDREN_MOVIE, 5));
 
-        String twoDaysStatement = customer.statement();
-
-        assertThat(twoDaysStatement, requiresAmount(1.5 + 2 * 1.5));
+        assertThat(customer.statement(), requiresAmount(1.5 + 2 * 1.5));
+        assertThat(customer.markdownStatement(), requiresAmountInMarkdown(1.5 + 2 * 1.5));
     }
 
     @Test
@@ -83,9 +88,8 @@ public class CustomerTest {
         Customer customer = createCustomer();
         customer.addRental(new Rental(CHILDREN_MOVIE, 2));
 
-        String twoDaysStatement = customer.statement();
-
-        assertThat(twoDaysStatement, requiresAmount(1.5));
+        assertThat(customer.statement(), requiresAmount(1.5));
+        assertThat(customer.markdownStatement(), requiresAmountInMarkdown(1.5));
     }
 
     @Test
@@ -93,9 +97,8 @@ public class CustomerTest {
         Customer customer = createCustomer();
         customer.addRental(new Rental(REGULAR_MOVIE, 1));
 
-        String twoDaysStatement = customer.statement();
-
-        assertThat(twoDaysStatement, requiresAmount(2));
+        assertThat(customer.statement(), requiresAmount(2));
+        assertThat(customer.markdownStatement(), requiresAmountInMarkdown(2));
     }
 
     @Test
@@ -103,9 +106,8 @@ public class CustomerTest {
         Customer customer = createCustomer();
         customer.addRental(new Rental(REGULAR_MOVIE, 4));
 
-        String twoDaysStatement = customer.statement();
-
-        assertThat(twoDaysStatement, requiresAmount(2 + 2 * 1.5));
+        assertThat(customer.statement(), requiresAmount(2 + 2 * 1.5));
+        assertThat(customer.markdownStatement(), requiresAmountInMarkdown(2 + 2 * 1.5));
     }
 
     @Test
@@ -113,9 +115,56 @@ public class CustomerTest {
         Customer customer = createCustomer();
         customer.addRental(new Rental(REGULAR_MOVIE, 2));
 
-        String twoDaysStatement = customer.statement();
+        assertThat(customer.statement(), requiresAmount(2.0));
+        assertThat(customer.markdownStatement(), requiresAmountInMarkdown(2.0));
+    }
 
-        assertThat(twoDaysStatement, requiresAmount(2.0));
+    @Test
+    public void movieTitlesAreAllIncludedInStatement() throws Exception {
+        Customer customer = createCustomer();
+        customer.addRental(new Rental(REGULAR_MOVIE, 2));
+        customer.addRental(new Rental(NEW_RELEASED_MOVIE, 1));
+
+        String twoMoviesStatement = customer.statement();
+
+        assertThat(twoMoviesStatement, containsString(REGULAR_MOVIE.getTitle()));
+        assertThat(twoMoviesStatement, containsString(NEW_RELEASED_MOVIE.getTitle()));
+    }
+
+    @Test
+    public void movieTitlesAreAllIncludedInMarkdownStatement() throws Exception {
+        Customer customer = createCustomer();
+        customer.addRental(new Rental(REGULAR_MOVIE, 2));
+        customer.addRental(new Rental(NEW_RELEASED_MOVIE, 1));
+
+        String twoMoviesStatement = customer.markdownStatement();
+
+        assertThat(twoMoviesStatement, containsString(REGULAR_MOVIE.getTitle()));
+        assertThat(twoMoviesStatement, containsString(NEW_RELEASED_MOVIE.getTitle()));
+    }
+
+    @Test
+    public void markdownStatementIsAsExpected() throws Exception {
+        Customer customer = createCustomer();
+        customer.addRental(new Rental(REGULAR_MOVIE, 2));
+        customer.addRental(new Rental(NEW_RELEASED_MOVIE, 1));
+
+        String twoMoviesStatement = customer.markdownStatement();
+        String expectedMarkdownStatement = loadExpectedMarkdownStatement();
+
+        assertThat(twoMoviesStatement, equalTo(expectedMarkdownStatement));
+    }
+
+    private String loadExpectedMarkdownStatement() throws IOException {
+        ClassLoader classLoader = CustomerTest.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream("expected-statement.md");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int readVal = inputStream.read();
+        while (readVal != -1) {
+            baos.write(readVal);
+            readVal = inputStream.read();
+        }
+        return baos.toString();
     }
 
     @Test

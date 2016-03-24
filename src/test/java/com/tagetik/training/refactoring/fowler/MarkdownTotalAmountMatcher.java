@@ -1,34 +1,28 @@
 package com.tagetik.training.refactoring.fowler;
 
-import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
 import java.util.regex.Pattern;
 
-class TotalAmountMatcher extends BaseMatcher<String> {
-    private static final Pattern PATTERN = Pattern.compile("Amount owed is (\\d+(:?\\.\\d+))");
+class MarkdownTotalAmountMatcher extends TypeSafeMatcher<String> {
+    private static final Pattern PATTERN = Pattern.compile("Amount owed is \\*\\*(\\d+(:?\\.\\d+))\\*\\*");
     private static final double EPSILON = .00001;
 
     private final double expectedTotalAmount;
 
-    private TotalAmountMatcher(double expectedTotalAmount) {
+    private MarkdownTotalAmountMatcher(double expectedTotalAmount) {
         this.expectedTotalAmount = expectedTotalAmount;
     }
 
-    static Matcher<String> requiresAmount(double amount) {
-        return new TotalAmountMatcher(amount);
+    static Matcher<String> requiresAmountInMarkdown(double amount) {
+        return new MarkdownTotalAmountMatcher(amount);
     }
 
     @Override
-    public boolean matches(Object item) {
-        if (!(item instanceof String)) {
-            return false;
-        }
-
-        String s = ((String) item);
-
-        java.util.regex.Matcher matcher = PATTERN.matcher(s);
+    protected boolean matchesSafely(String item) {
+        java.util.regex.Matcher matcher = PATTERN.matcher(item);
         if (!matcher.find()) {
             return false;
         }
@@ -38,7 +32,7 @@ class TotalAmountMatcher extends BaseMatcher<String> {
 
     @Override
     public void describeTo(Description description) {
-        description.appendText("A statement stating the customer owes ");
+        description.appendText("A Markdown statement stating the customer owes ");
         description.appendValue(expectedTotalAmount);
         description.appendText(" dollar(s)");
     }
