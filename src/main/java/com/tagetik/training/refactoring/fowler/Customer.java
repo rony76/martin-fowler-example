@@ -75,20 +75,35 @@ public class Customer {
         }
     }
 
-    private static class MdFormatter {
-        private String formatPoints(int totalFrequentRenterPoints) {
+    private interface StatementFormatter {
+        String formatPoints(int totalFrequentRenterPoints);
+
+        String formatCharge(double totalCharge);
+
+        String formatTitle(String title);
+
+        String formatCustomerName(String name);
+    }
+
+
+    private static class MdFormatter implements StatementFormatter {
+        @Override
+        public String formatPoints(int totalFrequentRenterPoints) {
             return "**" + totalFrequentRenterPoints + "**";
         }
 
-        private String formatCharge(double totalCharge) {
+        @Override
+        public String formatCharge(double totalCharge) {
             return "**" + totalCharge + "**";
         }
 
-        private String formatTitle(String title) {
+        @Override
+        public String formatTitle(String title) {
             return "*" + title + "*";
         }
 
-        private String formatCustomerName(String name) {
+        @Override
+        public String formatCustomerName(String name) {
             return "**" + name + "**";
         }
 
