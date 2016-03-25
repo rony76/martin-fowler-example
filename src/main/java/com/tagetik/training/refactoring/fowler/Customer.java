@@ -20,7 +20,7 @@ public class Customer {
     }
 
     public String statement() {
-        PlainFormatter formatter = new PlainFormatter();
+        StatementFormatter formatter = new PlainFormatter();
         String result = "Rental Record for " + formatter.formatCustomerName(getName()) + "\n";
         for (Rental rental : rentals) {
             // show figures for this rental
@@ -35,7 +35,7 @@ public class Customer {
     }
 
     public String markdownStatement() {
-        MdFormatter formatter = new MdFormatter();
+        StatementFormatter formatter = new MdFormatter();
 
         String result = "Rental Record for " +
                 formatter.formatCustomerName(getName()) +
@@ -57,20 +57,24 @@ public class Customer {
         return result;
     }
 
-    private static class PlainFormatter {
-        private String formatPoints(int totalFrequentRenterPoints) {
+    private static class PlainFormatter implements StatementFormatter {
+        @Override
+        public String formatPoints(int totalFrequentRenterPoints) {
             return Integer.toString(totalFrequentRenterPoints);
         }
 
-        private String formatCharge(double totalCharge) {
+        @Override
+        public String formatCharge(double totalCharge) {
             return Double.toString(totalCharge);
         }
 
-        private String formatTitle(String title) {
+        @Override
+        public String formatTitle(String title) {
             return title;
         }
 
-        private String formatCustomerName(String name) {
+        @Override
+        public String formatCustomerName(String name) {
             return name;
         }
     }
