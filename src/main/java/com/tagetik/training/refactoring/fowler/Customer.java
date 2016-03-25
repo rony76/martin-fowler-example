@@ -21,15 +21,15 @@ public class Customer {
 
     public String statement() {
         PlainFormatter formatter = new PlainFormatter();
-        String result = "Rental Record for " + formatter.formatPlainName(getName()) + "\n";
+        String result = "Rental Record for " + formatter.formatCustomerName(getName()) + "\n";
         for (Rental rental : rentals) {
             // show figures for this rental
-            result += "\t" + formatter.formatPlainTitle(rental.getMovie().getTitle()) + "\t" + rental.getCharge() + "\n";
+            result += "\t" + formatter.formatTitle(rental.getMovie().getTitle()) + "\t" + rental.getCharge() + "\n";
         }
 
         // add footer lines
-        result += "Amount owed is " + formatter.formatPlainCharge(getTotalCharge()) + "\n";
-        result += "You earned " + formatter.formatPlainTotalFrequentRenterPoints(getFrequentRenterPoints()) + " frequent renter points";
+        result += "Amount owed is " + formatter.formatCharge(getTotalCharge()) + "\n";
+        result += "You earned " + formatter.formatPoints(getFrequentRenterPoints()) + " frequent renter points";
 
         return result;
     }
@@ -38,57 +38,57 @@ public class Customer {
         MdFormatter formatter = new MdFormatter();
 
         String result = "Rental Record for " +
-                formatter.formatMdName(getName()) +
+                formatter.formatCustomerName(getName()) +
                 "\n";
         for (Rental rental : rentals) {
             // show figures for this rental
-            result += "\t" + formatter.formatMdMovieTitle(rental.getMovie().getTitle()) +
+            result += "\t" + formatter.formatTitle(rental.getMovie().getTitle()) +
                     "\t" + rental.getCharge() + "\n";
         }
 
         // add footer lines
         result += "Amount owed is " +
-                formatter.formatMdTotalCharge(getTotalCharge()) +
+                formatter.formatCharge(getTotalCharge()) +
                 "\n";
         result += "You earned " +
-                formatter.formatMdPoints(getFrequentRenterPoints()) +
+                formatter.formatPoints(getFrequentRenterPoints()) +
                 " frequent renter points";
 
         return result;
     }
 
     private static class PlainFormatter {
-        private String formatPlainTotalFrequentRenterPoints(int totalFrequentRenterPoints) {
+        private String formatPoints(int totalFrequentRenterPoints) {
             return Integer.toString(totalFrequentRenterPoints);
         }
 
-        private String formatPlainCharge(double totalCharge) {
+        private String formatCharge(double totalCharge) {
             return Double.toString(totalCharge);
         }
 
-        private String formatPlainTitle(String title) {
+        private String formatTitle(String title) {
             return title;
         }
 
-        private String formatPlainName(String name) {
+        private String formatCustomerName(String name) {
             return name;
         }
     }
 
     private static class MdFormatter {
-        private String formatMdPoints(int totalFrequentRenterPoints) {
+        private String formatPoints(int totalFrequentRenterPoints) {
             return "**" + totalFrequentRenterPoints + "**";
         }
 
-        private String formatMdTotalCharge(double totalCharge) {
+        private String formatCharge(double totalCharge) {
             return "**" + totalCharge + "**";
         }
 
-        private String formatMdMovieTitle(String title) {
+        private String formatTitle(String title) {
             return "*" + title + "*";
         }
 
-        private String formatMdName(String name) {
+        private String formatCustomerName(String name) {
             return "**" + name + "**";
         }
 
