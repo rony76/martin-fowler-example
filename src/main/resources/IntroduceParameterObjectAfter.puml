@@ -1,0 +1,14 @@
+@startuml
+
+class Customer {
+    creaSaldo(double importo, Conto conto, DatiModifica datiModifica)
+    creaTestataRettifica(Azienda azienda, Azienda ctp, DatiModifica datiModifica)
+    creaRigaRettifica(Testata testata, double importo, DatiModifica datiModifica)
+}
+
+class DatiModifica {
+    String utente
+    Date dataModifica
+}
+
+@enduml
