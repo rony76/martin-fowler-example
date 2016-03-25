@@ -20,7 +20,14 @@ public class Customer {
     }
 
     public String statement() {
-        StatementFormatter formatter = new PlainFormatter();
+        return formattedStatement(new PlainFormatter());
+    }
+
+    public String markdownStatement() {
+        return formattedStatement(new MdFormatter());
+    }
+
+    private String formattedStatement(StatementFormatter formatter) {
         String result = "Rental Record for " + formatter.formatCustomerName(getName()) + "\n";
         for (Rental rental : rentals) {
             // show figures for this rental
@@ -30,29 +37,6 @@ public class Customer {
         // add footer lines
         result += "Amount owed is " + formatter.formatCharge(getTotalCharge()) + "\n";
         result += "You earned " + formatter.formatPoints(getFrequentRenterPoints()) + " frequent renter points";
-
-        return result;
-    }
-
-    public String markdownStatement() {
-        StatementFormatter formatter = new MdFormatter();
-
-        String result = "Rental Record for " +
-                formatter.formatCustomerName(getName()) +
-                "\n";
-        for (Rental rental : rentals) {
-            // show figures for this rental
-            result += "\t" + formatter.formatTitle(rental.getMovie().getTitle()) +
-                    "\t" + rental.getCharge() + "\n";
-        }
-
-        // add footer lines
-        result += "Amount owed is " +
-                formatter.formatCharge(getTotalCharge()) +
-                "\n";
-        result += "You earned " +
-                formatter.formatPoints(getFrequentRenterPoints()) +
-                " frequent renter points";
 
         return result;
     }
