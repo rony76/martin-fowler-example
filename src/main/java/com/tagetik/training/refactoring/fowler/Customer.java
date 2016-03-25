@@ -20,70 +20,78 @@ public class Customer {
     }
 
     public String statement() {
-        String result = "Rental Record for " + formatPlainName(getName()) + "\n";
+        PlainFormatter formatter = new PlainFormatter();
+        String result = "Rental Record for " + formatter.formatPlainName(getName()) + "\n";
         for (Rental rental : rentals) {
             // show figures for this rental
-            result += "\t" + formatPlainTitle(rental.getMovie().getTitle()) + "\t" + rental.getCharge() + "\n";
+            result += "\t" + formatter.formatPlainTitle(rental.getMovie().getTitle()) + "\t" + rental.getCharge() + "\n";
         }
 
         // add footer lines
-        result += "Amount owed is " + formatPlainCharge(getTotalCharge()) + "\n";
-        result += "You earned " + formatPlainTotalFrequentRenterPoints(getFrequentRenterPoints()) + " frequent renter points";
+        result += "Amount owed is " + formatter.formatPlainCharge(getTotalCharge()) + "\n";
+        result += "You earned " + formatter.formatPlainTotalFrequentRenterPoints(getFrequentRenterPoints()) + " frequent renter points";
 
         return result;
     }
 
     public String markdownStatement() {
+        MdFormatter formatter = new MdFormatter();
+
         String result = "Rental Record for " +
-                formatMdName(getName()) +
+                formatter.formatMdName(getName()) +
                 "\n";
         for (Rental rental : rentals) {
             // show figures for this rental
-            result += "\t" + formatMdMovieTitle(rental.getMovie().getTitle()) +
+            result += "\t" + formatter.formatMdMovieTitle(rental.getMovie().getTitle()) +
                     "\t" + rental.getCharge() + "\n";
         }
 
         // add footer lines
         result += "Amount owed is " +
-                formatMdTotalCharge(getTotalCharge()) +
+                formatter.formatMdTotalCharge(getTotalCharge()) +
                 "\n";
         result += "You earned " +
-                formatMdPoints(getFrequentRenterPoints()) +
+                formatter.formatMdPoints(getFrequentRenterPoints()) +
                 " frequent renter points";
 
         return result;
     }
 
-    private String formatPlainTotalFrequentRenterPoints(int totalFrequentRenterPoints) {
-        return Integer.toString(totalFrequentRenterPoints);
+    private static class PlainFormatter {
+        private String formatPlainTotalFrequentRenterPoints(int totalFrequentRenterPoints) {
+            return Integer.toString(totalFrequentRenterPoints);
+        }
+
+        private String formatPlainCharge(double totalCharge) {
+            return Double.toString(totalCharge);
+        }
+
+        private String formatPlainTitle(String title) {
+            return title;
+        }
+
+        private String formatPlainName(String name) {
+            return name;
+        }
     }
 
-    private String formatPlainCharge(double totalCharge) {
-        return Double.toString(totalCharge);
-    }
+    private static class MdFormatter {
+        private String formatMdPoints(int totalFrequentRenterPoints) {
+            return "**" + totalFrequentRenterPoints + "**";
+        }
 
-    private String formatPlainTitle(String title) {
-        return title;
-    }
+        private String formatMdTotalCharge(double totalCharge) {
+            return "**" + totalCharge + "**";
+        }
 
-    private String formatPlainName(String name) {
-        return name;
-    }
+        private String formatMdMovieTitle(String title) {
+            return "*" + title + "*";
+        }
 
-    private String formatMdPoints(int totalFrequentRenterPoints) {
-        return "**" + totalFrequentRenterPoints + "**";
-    }
+        private String formatMdName(String name) {
+            return "**" + name + "**";
+        }
 
-    private String formatMdTotalCharge(double totalCharge) {
-        return "**" + totalCharge + "**";
-    }
-
-    private String formatMdMovieTitle(String title) {
-        return "*" + title + "*";
-    }
-
-    private String formatMdName(String name) {
-        return "**" + name + "**";
     }
 
     private int getFrequentRenterPoints() {
