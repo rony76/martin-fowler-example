@@ -1,0 +1,13 @@
+@startuml
+
+class Customer {
+    String name
+    String homePrefix
+    String homeNumber
+    String officePrefix
+    String officeNumber
+
+    String statement()
+}
+
+@enduml
