@@ -4,11 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Customer {
+    private final PhoneNumber homePhone = new PhoneNumber();
+    private final PhoneNumber officePhone = new PhoneNumber();
     private String name;
-    private String homePrefix;
-    private String homeNumber;
-    private String officePrefix;
-    private String officeNumber;
 
     private List<Rental> rentals = new LinkedList<Rental>();
 
@@ -56,42 +54,42 @@ public class Customer {
     }
 
     public void setHomePrefix(String homePrefix) {
-        this.homePrefix = homePrefix;
+        this.homePhone.prefix = homePrefix;
     }
 
     public String getHomePrefix() {
-        return homePrefix;
+        return homePhone.getPrefix();
     }
 
     public void setHomeNumber(String homeNumber) {
-        this.homeNumber = homeNumber;
+        this.homePhone.setNumber(homeNumber);
     }
 
     public String getHomeNumber() {
-        return homeNumber;
+        return homePhone.getNumber();
     }
 
     public String getOfficePrefix() {
-        return officePrefix;
+        return officePhone.getPrefix();
     }
 
     public void setOfficePrefix(String officePrefix) {
-        this.officePrefix = officePrefix;
+        this.officePhone.prefix = officePrefix;
     }
 
     public String getOfficeNumber() {
-        return officeNumber;
+        return officePhone.getNumber();
     }
 
     public void setOfficeNumber(String officeNumber) {
-        this.officeNumber = officeNumber;
+        this.officePhone.setNumber(officeNumber);
     }
 
     public void dialHome(Dialler dialler) {
-        dialler.dial(homePrefix + homeNumber);
+        homePhone.dial(dialler);
     }
 
     public void dialOffice(Dialler dialler) {
-        dialler.dial(officePrefix + officeNumber);
+        officePhone.dial(dialler);
     }
 }

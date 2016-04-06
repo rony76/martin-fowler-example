@@ -2,17 +2,24 @@
 
 class Customer {
     String name
-    String homePrefix
-    String homeNumber
-    String officePrefix
-    String officeNumber
+    PhoneNumber homePhone
+    PhoneNumber officePhone
 
     String statement()
     void callHome(Dialler)
     void callOffice(Dialler)
 }
 
+class PhoneNumber {
+    String prefix
+    String number
+
+    void dial(Dialler)
+}
+
 interface Dialler {
     void dial(String number)
 }
+
+Customer "1" *- "2" PhoneNumber
 @enduml
