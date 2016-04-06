@@ -1,6 +1,5 @@
 package com.tagetik.training.refactoring.fowler;
 
-import org.hamcrest.Matcher;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -14,7 +13,6 @@ import static com.tagetik.training.refactoring.fowler.TotalAmountMatcher.require
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 public class CustomerTest {
 
@@ -161,7 +159,9 @@ public class CustomerTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int readVal = inputStream.read();
         while (readVal != -1) {
-            baos.write(readVal);
+            if (readVal != '\r') {
+                baos.write(readVal);
+            }
             readVal = inputStream.read();
         }
         return baos.toString();
