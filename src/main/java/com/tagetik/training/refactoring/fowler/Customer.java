@@ -5,6 +5,11 @@ import java.util.List;
 
 public class Customer {
     private String name;
+    private String homePrefix;
+    private String homeNumber;
+    private String officePrefix;
+    private String officeNumber;
+
     private List<Rental> rentals = new LinkedList<Rental>();
 
     public Customer(String name) {
@@ -50,4 +55,43 @@ public class Customer {
         return result;
     }
 
+    public void setHomePrefix(String homePrefix) {
+        this.homePrefix = homePrefix;
+    }
+
+    public String getHomePrefix() {
+        return homePrefix;
+    }
+
+    public void setHomeNumber(String homeNumber) {
+        this.homeNumber = homeNumber;
+    }
+
+    public String getHomeNumber() {
+        return homeNumber;
+    }
+
+    public String getOfficePrefix() {
+        return officePrefix;
+    }
+
+    public void setOfficePrefix(String officePrefix) {
+        this.officePrefix = officePrefix;
+    }
+
+    public String getOfficeNumber() {
+        return officeNumber;
+    }
+
+    public void setOfficeNumber(String officeNumber) {
+        this.officeNumber = officeNumber;
+    }
+
+    public void dialHome(Dialler dialler) {
+        dialler.dial(homePrefix + homeNumber);
+    }
+
+    public void dialOffice(Dialler dialler) {
+        dialler.dial(officePrefix + officeNumber);
+    }
 }

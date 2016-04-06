@@ -8,6 +8,11 @@ class Customer {
     String officeNumber
 
     String statement()
+    void callHome(Dialler)
+    void callOffice(Dialler)
 }
 
+interface Dialler {
+    void dial(String number)
+}
 @enduml
