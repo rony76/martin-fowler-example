@@ -5,7 +5,9 @@ class LinkedList<T> {
     Iterator<T> iterator()
 }
 
-class Rentals extends LinkedList {
+class Rentals {
+    LinkedList<Rental> list
+
     Iterator<Rental> iterator()
 }
 
