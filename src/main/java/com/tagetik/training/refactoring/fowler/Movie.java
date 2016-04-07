@@ -5,6 +5,7 @@ public class Movie {
     public static final int REGULAR = 0;
     public static final int NEW_RELEASE = 1;
 
+    private String director;
     private String title;
     private Price price;
 
@@ -43,4 +44,7 @@ public class Movie {
         return price.getFrequentRenterPoints(daysRented);
     }
 
+    public String getDirectorName() {
+        return director;
+    }
 }

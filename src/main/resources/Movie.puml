@@ -1,0 +1,9 @@
+@startuml
+
+class Movie {
+    String director
+    String title
+    String getDirectorName()
+}
+
+@enduml
