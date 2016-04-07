@@ -1,0 +1,12 @@
+@startuml
+
+
+class LinkedList<T> {
+    Iterator<T> iterator()
+}
+
+class Rentals extends LinkedList {
+    Iterator<Rental> iterator()
+}
+
+@enduml
