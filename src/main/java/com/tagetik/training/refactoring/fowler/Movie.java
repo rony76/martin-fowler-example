@@ -5,7 +5,7 @@ public class Movie {
     public static final int REGULAR = 0;
     public static final int NEW_RELEASE = 1;
 
-    private String director;
+    private Director director;
     private String title;
     private Price price;
 
@@ -45,6 +45,6 @@ public class Movie {
     }
 
     public String getDirectorName() {
-        return director;
+        return director.getName();
     }
 }

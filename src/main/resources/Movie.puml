@@ -1,9 +1,16 @@
 @startuml
 
 class Movie {
-    String director
+    Director director
     String title
     String getDirectorName()
 }
+
+class Director {
+    String name
+    String getName()
+}
+
+Movie --o Director
 
 @enduml
