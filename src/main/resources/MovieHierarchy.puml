@@ -1,0 +1,35 @@
+@startuml
+
+interface Movie {
+}
+
+class RegularMovie {
+}
+
+class ChildrensMovie {
+}
+
+class NewReleaseMovie {
+}
+
+interface MoviePrinter {
+}
+
+class RegularMoviePrinter {
+}
+
+class ChildrensMoviePrinter {
+}
+
+class NewReleaseMoviePrinter {
+}
+
+Movie <|-- RegularMovie
+Movie <|-- ChildrensMovie
+Movie <|-- NewReleaseMovie
+
+MoviePrinter <|-- RegularMoviePrinter
+MoviePrinter <|-- ChildrensMoviePrinter
+MoviePrinter <|-- NewReleaseMoviePrinter
+
+@enduml
