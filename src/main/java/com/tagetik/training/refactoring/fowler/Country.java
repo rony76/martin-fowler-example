@@ -10,4 +10,8 @@ public class Country {
     public Area getArea() {
         return area;
     }
+
+    boolean isInEurope() {
+        return area.isInEurope();
+    }
 }

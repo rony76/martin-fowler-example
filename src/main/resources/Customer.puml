@@ -13,6 +13,8 @@ class Customer {
 
 class Address {
     Country country
+
+    boolean isInEurope()
 }
 
 class Country {

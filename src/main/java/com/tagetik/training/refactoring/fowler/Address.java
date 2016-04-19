@@ -12,6 +12,7 @@ public class Address {
     }
 
     public boolean isInEurope() {
-        return country.getArea().isInEurope();
+        return country.isInEurope();
     }
+
 }
