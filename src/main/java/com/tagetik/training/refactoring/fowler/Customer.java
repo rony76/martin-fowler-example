@@ -52,14 +52,10 @@ public class Customer {
             result += rental.getCharge();
         }
 
-        if (isCustomerInEurope()) {
+        if (address.isInEurope()) {
             result += STATEMENT_DELIVERY_CHARGE;
         }
         return result;
-    }
-
-    private boolean isCustomerInEurope() {
-        return address.getCountry().getArea().isInEurope();
     }
 
 }
