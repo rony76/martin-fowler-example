@@ -1,27 +1,31 @@
 @startuml
 
-interface Movie {
+package "Model" {
+    interface Movie {
+    }
+
+    class RegularMovie {
+    }
+
+    class ChildrensMovie {
+    }
+
+    class NewReleaseMovie {
+    }
 }
 
-class RegularMovie {
-}
+package "GUI" {
+    interface MoviePrinter {
+    }
 
-class ChildrensMovie {
-}
+    class RegularMoviePrinter {
+    }
 
-class NewReleaseMovie {
-}
+    class ChildrensMoviePrinter {
+    }
 
-interface MoviePrinter {
-}
-
-class RegularMoviePrinter {
-}
-
-class ChildrensMoviePrinter {
-}
-
-class NewReleaseMoviePrinter {
+    class NewReleaseMoviePrinter {
+    }
 }
 
 Movie <|-- RegularMovie
@@ -31,5 +35,11 @@ Movie <|-- NewReleaseMovie
 MoviePrinter <|-- RegularMoviePrinter
 MoviePrinter <|-- ChildrensMoviePrinter
 MoviePrinter <|-- NewReleaseMoviePrinter
+
+Movie .. MoviePrinter: can-print
+RegularMovie .. RegularMoviePrinter : can-print
+ChildrensMovie .. ChildrensMoviePrinter : can-print
+NewReleaseMovie .. NewReleaseMoviePrinter : can-print
+
 
 @enduml
