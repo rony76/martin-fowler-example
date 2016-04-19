@@ -1,0 +1,24 @@
+@startuml
+
+Customer *- Address
+Address *- Country
+Country *- Area
+
+class Customer {
+    String name
+    Address address
+}
+
+class Address {
+    Country country
+}
+
+class Country {
+    Area area
+}
+
+class Area {
+    boolean isEurope()
+}
+
+@enduml
